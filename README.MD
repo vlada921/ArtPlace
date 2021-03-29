@@ -1,7 +1,7 @@
 This is a repository of source code for my diploma project.
 Next updates regarding use, build & deployment will be added here.
 
-#DOCUMENTATION
+# DOCUMENTATION
 
 All the documents (e.g. statement of work) and diagrams will be available in `documents` branch on GitHub.
 
