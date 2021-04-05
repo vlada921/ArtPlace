@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.sql.Date;
 import java.util.UUID;
 
 @Data
@@ -18,7 +19,7 @@ public class User {
 
     private String name;
 
-    private int age;
+    private Date birthday;
 
     private String gender;
 }
