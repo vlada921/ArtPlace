@@ -18,6 +18,8 @@ public class User {
     private UUID id;
 
     private String name;
+    
+    private String email;
 
     private Date birthday;
 
