@@ -46,6 +46,7 @@ create table if not exists artplace.ap_users(
     gender varchar(64),
     email varchar(128),
     birthday date,
+    password varchar,
     constraint ap_users_name_length_check
         check (
             is_real_length_between(name)

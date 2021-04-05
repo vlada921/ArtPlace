@@ -22,4 +22,6 @@ public class User {
     private Date birthday;
 
     private String gender;
+
+    private String password;
 }
