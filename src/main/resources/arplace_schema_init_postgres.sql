@@ -57,6 +57,7 @@ create table if not exists artplace.ap_registration_confirmation(
     user_id uuid default uuid_generate_v4() primary key,
     created_when timestamp default now() not null,
     confirmed_when timestamp,
+    token varchar not null,
     constraint ap_registration_confirmation_check_dates
         check (confirmed_when is null or confirmed_when > ap_registration_confirmation.created_when),
     constraint ap_registration_confirmation_user_exists

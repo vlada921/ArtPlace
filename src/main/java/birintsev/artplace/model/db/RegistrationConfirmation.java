@@ -35,4 +35,6 @@ public class RegistrationConfirmation {
 
     @Column(name = "confirmed_when")
     private Timestamp confirmedWhen;
+
+    private String token;
 }
