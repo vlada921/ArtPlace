@@ -2,32 +2,34 @@ package birintsev.artplace;
 
 import birintsev.artplace.model.db.Authority;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
 
+    private final AuthenticationProvider authenticationProvider;
+
     public SpringSecurityConfiguration(
         @Qualifier("UserRepo")
-        UserDetailsService userDetailsService
+            UserDetailsService userDetailsService,
+        AuthenticationProvider authenticationProvider
     ) {
         this.userDetailsService = userDetailsService;
+        this.authenticationProvider = authenticationProvider;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
             .antMatchers("/admin/**")
-                .hasAuthority(Authority.ADMIN.getAuthority())
-            .antMatchers("/registration", "/registration-form-submit")
+                .hasAuthority(Authority.ADMIN.getName())
+            .antMatchers("/registration/**")
                 .not()
                 .authenticated()
                 .and()
@@ -38,10 +40,6 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll();
 
         http.userDetailsService(userDetailsService);
-    }
-
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        http.authenticationProvider(authenticationProvider);
     }
 }

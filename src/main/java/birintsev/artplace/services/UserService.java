@@ -4,6 +4,7 @@ import birintsev.artplace.dto.RegistrationRequest;
 import birintsev.artplace.model.db.User;
 import birintsev.artplace.services.exceptions.UserExistException;
 import org.springframework.stereotype.Service;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
@@ -18,5 +19,19 @@ public interface UserService {
     User register(RegistrationRequest registrationRequest)
         throws UserExistException;
 
+    /**
+     * This method does not take care about user statuses, states and so on.
+     * It just returns all the users.
+     *
+     * @return all the users registered in the system
+     * */
     Set<User> allUsers();
+
+    /**
+     *
+     * @throws NoSuchElementException if the {@code token} does not exist
+     *                                or it's got expired
+     * @throws UserExistException     if the users already confirmed
+     * */
+    void confirm(String token) throws UserExistException;
 }

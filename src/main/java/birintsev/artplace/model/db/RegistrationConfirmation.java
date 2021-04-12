@@ -11,6 +11,9 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -19,6 +22,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "ap_registration_confirmation")
 public class RegistrationConfirmation {
+
+    public static final Duration DEFAULT_TOKEN_EXPIRATION = Duration.ofDays(1);
 
     @Id
     @Column(name = "user_id")
@@ -39,6 +44,9 @@ public class RegistrationConfirmation {
 
     @Column(name = "confirmed_when")
     private Timestamp confirmedWhen;
+
+    @Column(name = "expires_when")
+    private Timestamp expiresWhen;
 
     private String token;
 }

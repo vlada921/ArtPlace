@@ -1,5 +1,6 @@
 package birintsev.artplace.eventslisteners;
 
+import birintsev.artplace.controllers.RegistrationController;
 import birintsev.artplace.model.db.RegistrationConfirmation;
 import birintsev.artplace.model.db.repo.RegistrationRepo;
 import lombok.AllArgsConstructor;
@@ -91,7 +92,9 @@ implements ApplicationListener<SendRegistrationConfirmationEvent> {
         try {
             return new URL(
                 applicationUrl
-                    + "/registration-confirmation?token="
+                    + RegistrationController.REG_PAGE_PATH
+                    + RegistrationController.REG_CONFIRM_HANDLER_PATH
+                    + "?token="
                     + URLEncoder.encode(
                         registrationConfirmation.getToken(),
                         Charset.defaultCharset()

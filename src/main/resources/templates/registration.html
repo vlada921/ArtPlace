@@ -11,7 +11,7 @@
 </head>
     <body>
         <!--/*@thymesVar id="registrationRequest" type="birintsev.artplace.dto.RegistrationRequest"*/-->
-        <form th:id="registration-form" th:class="'rounded'" th:object="${registrationRequest}" th:action="@{/registration-form-submit}" th:method="'post'">
+        <form th:id="registration-form" th:class="'rounded'" th:object="${registrationRequest}" th:action="@{/registration/form-submit}" th:method="'post'">
             <p th:id="'form-title'">Registration form</p>
 
             <div class="form-field-container">

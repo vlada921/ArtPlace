@@ -3,6 +3,7 @@ package birintsev.artplace.controllers;
 import birintsev.artplace.dto.RegistrationRequest;
 import birintsev.artplace.model.db.User;
 import birintsev.artplace.services.UserService;
+import birintsev.artplace.services.exceptions.UserExistException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +14,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.Locale;
+import java.util.NoSuchElementException;
 
 @AllArgsConstructor
 @Controller
+@RequestMapping(RegistrationController.REG_PAGE_PATH)
 public class RegistrationController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(
@@ -37,17 +41,23 @@ public class RegistrationController {
     private static final String MESSAGE_MODEL_ATTR_NAME =
         "message";
 
-    private static final String REG_PAGE_ABS_PATH =
+    public static final String REG_PAGE_PATH =
         "/registration";
 
-    private static final String REG_FORM_HANDLER_ABS_PATH =
-        "/registration-form-submit";
+    static final String REG_FORM_HANDLER_PATH =
+        "/form-submit";
+
+    public static final String REG_CONFIRM_HANDLER_PATH =
+        "/confirm";
 
     private static final String REG_VIEW_NAME =
         "registration";
 
     private static final String ACCOUNT_VIEW_NAME =
         "account";
+
+    private static final String ERROR_VIEW_NAME =
+        "error";
 
     private final UserService userService;
 
@@ -56,8 +66,7 @@ public class RegistrationController {
     private final Locale localeDefault;
 
     @RequestMapping(
-        method = RequestMethod.GET,
-        path = REG_PAGE_ABS_PATH
+        method = RequestMethod.GET
     )
     ModelAndView registrationPage() {
         ModelAndView modelAndView = new ModelAndView(REG_VIEW_NAME);
@@ -70,7 +79,7 @@ public class RegistrationController {
 
     @RequestMapping(
         method = RequestMethod.POST,
-        path = REG_FORM_HANDLER_ABS_PATH
+        path = REG_FORM_HANDLER_PATH
     )
     ModelAndView registrationFormSubmit(
         @ModelAttribute(REG_REQUEST_MODEL_ATTR_NAME)
@@ -112,5 +121,31 @@ public class RegistrationController {
             modelAndView.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return modelAndView;
+    }
+
+    @RequestMapping(
+        path = REG_CONFIRM_HANDLER_PATH,
+        method = RequestMethod.GET
+    )
+    ModelAndView confirm(@RequestParam(value = "token") String token) {
+        ModelAndView mav;
+        try {
+            userService.confirm(token);
+            mav = new ModelAndView("redirect:/login");
+        } catch (UserExistException e) {
+            LOGGER.error(e.getMessage(), e);
+            mav = new ModelAndView("redirect:" + ACCOUNT_VIEW_NAME);
+        } catch (NoSuchElementException e) {
+            mav = new ModelAndView(
+                ERROR_VIEW_NAME,
+                ERROR_MODEL_ATTR_NAME,
+                messageSource.getMessage(
+                    "registration.token.expired.message",
+                    new Object[]{},
+                    localeDefault
+                )
+            );
+        }
+        return mav;
     }
 }

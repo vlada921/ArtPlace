@@ -21,4 +21,6 @@ extends CrudRepository<RegistrationConfirmation, UUID> {
             + " where r.user.email = :email"
     )
     Optional<RegistrationConfirmation> findByEmail(String email);
+
+    Optional<RegistrationConfirmation> findByToken(String token);
 }

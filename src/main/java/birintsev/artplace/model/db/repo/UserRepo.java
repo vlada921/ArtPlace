@@ -17,12 +17,12 @@ extends CrudRepository<User, UUID>, UserDetailsService {
 
     boolean existsByEmail(String email);
 
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
     @Override
     default UserDetails loadUserByUsername(String email)
     throws UsernameNotFoundException {
-        return Optional.ofNullable(findByEmail(email))
+        return findByEmail(email)
             .orElseThrow(
                 () -> new UsernameNotFoundException(
                     String.format("User with email %s not found", email)
