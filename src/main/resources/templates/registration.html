@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" th:href="@{/css/registration.css}">
+    <script th:src="@{https://code.jquery.com/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js}"></script>
+    <script th:src="@{/js/registration.js}"></script>
+</head>
+    <body>
+        <!--/*@thymesVar id="registrationRequest" type="birintsev.artplace.dto.RegistrationRequest"*/-->
+        <form th:id="registration-form" th:class="'rounded'" th:object="${registrationRequest}" th:action="@{/registration-form-submit}" th:method="'post'">
+            <p th:id="'form-title'">Registration form</p>
+
+            <div class="form-field-container">
+                <label th:for="'name'">Name</label>
+                <input th:class="'rounded'" th:id="'name'" th:name="'name'" th:placeholder="'Name'" th:field="*{name}" th:required>
+                <!--/*@thymesVar id="#errors" type="org.springframework.validation.BindingResult"*/-->
+                <!--/*@thymesVar id="#e" type="org.springframework.validation.FieldError"*/-->
+                <p th:each="e : ${errors?.getFieldError('name')}"
+                   th:text="${e.getDefaultMessage()}">Validation error</p>
+            </div>
+
+            <div class="form-field-container">
+                <label th:for="'gender'">Gender</label>
+                <select th:class="'rounded'" th:id="'gender'" th:name="'gender'" th:field="*{gender}">
+                    <option th:selected th:value="${null}"></option>
+                    <option th:value="'male'">Male</option>
+                    <option th:value="'female'">Female</option>
+                </select>
+            </div>
+
+            <div class="form-field-container">
+                <label th:for="'birthday'">Birthday</label>
+                <input th:class="'rounded'" th:id="'birthday'" th:name="'birthday'" th:type="'date'" th:field="*{birthday}">
+                <p th:each="e : ${errors?.getFieldError('birthday')}"
+                   th:text="${e.getDefaultMessage()}">Validation error</p>
+            </div>
+
+            <div class="form-field-container">
+                <label th:for="'email'">Email</label>
+                <input th:class="'rounded'" th:id="'email'" th:name="email" th:type="email" th:placeholder="Email" th:field="*{email}" th:required>
+                <p th:each="e : ${errors?.getFieldError('email')}"
+                   th:text="${e.getDefaultMessage()}">Validation error</p>
+            </div>
+
+            <div class="form-field-container">
+                <label th:for="'password'">Password</label>
+                <input th:class="'rounded'" th:id="'password'" th:name="'password'" th:type="'password'" th:field="*{password}" th:required>
+                <p th:each="e : ${errors?.getFieldError('password')}"
+                   th:text="${e.getDefaultMessage()}">Validation error</p>
+            </div>
+
+            <div class="form-field-container">
+                <label th:for="'confirm-password'">Confirm password</label>
+                <input th:class="'rounded'" th:id="'confirm-password'" th:name="'confirm-password'" th:type="'password'" th:required>
+            </div>
+
+            <div th:if="${errors?.hasGlobalErrors()}">
+                <p th:each="e : ${errors?.getGlobalErrors()}"
+                   th:text="${e.getDefaultMessage()}"></p>
+            </div>
+
+            <button th:class="'rounded'" th:type="'submit'" th:id="'submit-form-button'">Register</button>
+        </form>
+    </body>
+</html>

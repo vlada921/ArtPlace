@@ -1,3 +1,14 @@
+drop table if exists artplace.ap_users cascade;
+drop table if exists artplace.ap_authorities cascade;
+drop table if exists artplace.ap_user_authorities cascade;
+drop table if exists artplace.ap_publics cascade;
+drop table if exists artplace.ap_publications cascade;
+drop table if exists artplace.ap_files cascade;
+drop table if exists artplace.ap_publication_files cascade;
+drop table if exists artplace.ap_registration_confirmation cascade;
+drop table if exists artplace.ap_params cascade;
+drop table if exists artplace.ap_users_registration_requests cascade;
+
 -- DDL
 
 create schema if not exists artplace;
@@ -41,7 +52,7 @@ create or replace function max_user_publics_check_procedure() returns trigger as
 $$ language plpgsql;
 
 create table if not exists artplace.ap_users(
-    id uuid default uuid_generate_v4() primary key,
+    id uuid default public.uuid_generate_v4() primary key,
     name varchar(128),
     gender varchar(64),
     email varchar(128),
@@ -54,7 +65,7 @@ create table if not exists artplace.ap_users(
 );
 
 create table if not exists artplace.ap_registration_confirmation(
-    user_id uuid default uuid_generate_v4() primary key,
+    user_id uuid default public.uuid_generate_v4() primary key,
     created_when timestamp default now() not null,
     confirmed_when timestamp,
     token varchar not null default public.uuid_generate_v4(),
@@ -67,7 +78,7 @@ create table if not exists artplace.ap_registration_confirmation(
 );
 
 create table if not exists artplace.ap_publics(
-    id uuid default uuid_generate_v4() primary key,
+    id uuid default public.uuid_generate_v4() primary key,
     name varchar(128),
     owner_id uuid not null,
     constraint ap_publics_name_length_check
@@ -79,7 +90,7 @@ create table if not exists artplace.ap_publics(
 );
 
 create table if not exists artplace.ap_publications(
-    id uuid default uuid_generate_v4() primary key,
+    id uuid default public.uuid_generate_v4() primary key,
     public_id uuid not null,
     title varchar(128) not null,
     publication_text varchar(4096) not null,
@@ -92,7 +103,7 @@ create table if not exists artplace.ap_publications(
 );
 
 create table if not exists artplace.ap_files(
-    id uuid default uuid_generate_v4() primary key,
+    id uuid default public.uuid_generate_v4() primary key,
     uri varchar(4096) not null,
     constraint ap_files_url_length_check check (is_real_length_between(uri))
 );
@@ -110,14 +121,18 @@ create table if not exists artplace.ap_params(
     value varchar
 );
 
-create table if not exists artplace.ap_users_registration_requests(
-    user_id uuid primary key,
-    created_when timestamp not null default now(),
-    confirmed_when timestamp,
-    constraint ap_users_registration_requests_user_fk
+create table if not exists artplace.ap_authorities(
+    name varchar(128) primary key
+);
+
+create table if not exists artplace.ap_user_authorities(
+    user_id uuid,
+    authority_name varchar(128),
+    primary key (user_id, authority_name),
+    constraint ap_user_authorities_user_fk
         foreign key (user_id) references artplace.ap_users(id),
-    constraint ap_users_registration_requests_confirmed_after_created_check
-        check ((confirmed_when is null) or (confirmed_when >= created_when))
+    constraint ap_user_authorities_authority_fk
+        foreign key (authority_name) references artplace.ap_authorities(name)
 );
 
 -- Triggers
@@ -129,4 +144,10 @@ execute procedure max_user_publics_check_procedure();
 
 -- DML
 
-insert into artplace.ap_params values ('maxUserPublics', 128);
+insert into artplace.ap_params values
+    ('maxUserPublics', 128);
+insert into artplace.ap_authorities values
+    ('REGISTRATION_CONFIRMATION_PENDING'),
+    ('REGISTRATION_CONFIRMED');
+
+set search_path = "artplace";
