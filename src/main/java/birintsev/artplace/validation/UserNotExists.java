@@ -1,6 +1,5 @@
 package birintsev.artplace.validation;
 
-import org.springframework.core.annotation.AliasFor;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.ElementType;
