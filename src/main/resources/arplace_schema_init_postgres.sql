@@ -148,6 +148,18 @@ insert into artplace.ap_params values
     ('maxUserPublics', 128);
 insert into artplace.ap_authorities values
     ('REGISTRATION_CONFIRMATION_PENDING'),
-    ('REGISTRATION_CONFIRMED');
+    ('REGISTRATION_CONFIRMED'),
+    ('ADMIN');
+insert into artplace.ap_users values (
+    default,
+    'admin',
+    null,
+    'admin@artplace.com',
+    now(),
+    '$2y$10$/RGz1iys40SQS3Nt7DeB9.P7vzk.6e3ecGdF3d0hLGuaFNvk0ad6m'/*BCrypt(2y, 10) : admin*/
+);
+insert into artplace.ap_user_authorities values
+    ((select id from artplace.ap_users where name = 'admin'), 'ADMIN'),
+    ((select id from artplace.ap_users where name = 'admin'), 'REGISTRATION_CONFIRMED');
 
 set search_path = "artplace";
