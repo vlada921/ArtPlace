@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
@@ -70,6 +69,4 @@ public class DefaultUserService implements UserService {
             .stream(userRepo.findAll().spliterator(),false)
             .collect(Collectors.toSet());
     }
-
-
 }

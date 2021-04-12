@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link rel="stylesheet" th:href="@{/css/users_table.css}">
+</head>
+    <body>
+        <table th:id="'users-table'" th:class="'styled-table'">
+            <tr>
+                <td><b>Name</b></td>
+                <td><b>Email</b></td>
+                <td><b>Registration</b></td>
+            </tr>
+            <!--/*@thymesVar id="users" type="java.util.Set"*/-->
+            <!--/*@thymesVar id="user" type="birintsev.artplace.model.db.User"*/-->
+            <tr th:classappend="${user.isEnabled()} ? 'active-row' : ''" th:each="user : ${users}">
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.isEnabled()} ? 'confirmed' : 'not confirmed'"></td>
+            </tr>
+        </table>
+    </body>
+</html>

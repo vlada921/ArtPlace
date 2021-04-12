@@ -21,6 +21,9 @@ public class Authority implements GrantedAuthority {
     public static final Authority REG_CONFIRMED =
         new Authority("REGISTRATION_CONFIRMED");
 
+    public static final Authority ADMIN =
+        new Authority("ADMIN");
+
     @Id
     private String name;
 
