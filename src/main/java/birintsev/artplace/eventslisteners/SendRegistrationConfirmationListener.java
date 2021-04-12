@@ -12,6 +12,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
+import java.io.UncheckedIOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
@@ -100,9 +102,9 @@ implements ApplicationListener<SendRegistrationConfirmationEvent> {
                         Charset.defaultCharset()
                     )
             );
-        } catch (Exception e) {
+        } catch (MalformedURLException e) {
             LOGGER.error(e.getMessage(), e);
-            throw new RuntimeException(e);
+            throw new UncheckedIOException("Unexpected exception", e);
         }
     }
 }
