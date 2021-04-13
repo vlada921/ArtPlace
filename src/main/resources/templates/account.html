@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Account</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}">
 </head>
     <body>
-        Hi from account
+        <!--/*@thymesVar id="userDto" type="birintsev.artplace.dto.UserDTO"*/-->
+        <form th:object="${userDto}" th:id="'user-settings'">
+            <!--/*@thymesVar id="readOnly" type="java.lang.Boolean"*/-->
+            <div class="form-field-container">
+                <label th:for="'name'">Name</label>
+                <input th:class="'rounded'" th:id="'name'" th:name="'name'" th:placeholder="'Name'" th:field="*{name}" th:required th:attr="disabled=${readOnly}">
+                <!--/*@thymesVar id="#errors" type="org.springframework.validation.BindingResult"*/-->
+                <!--/*@thymesVar id="#e" type="org.springframework.validation.FieldError"*/-->
+                <p th:each="e : ${errors?.getFieldError('name')}"
+                   th:text="${e.getDefaultMessage()}">Validation error</p>
+            </div>
+
+            <div class="form-field-container">
+                <label th:for="'gender'">Gender</label>
+                <select th:class="'rounded'" th:id="'gender'" th:name="'gender'" th:field="*{gender}" th:value="${userDto.getGender()}" th:attr="disabled=${readOnly}">
+                    <option th:value="${null}"></option>
+                    <option th:value="'male'">Male</option>
+                    <option th:value="'female'">Female</option>
+                </select>
+            </div>
+
+            <div class="form-field-container">
+                <label th:for="'birthday'">Birthday</label>
+                <input th:class="'rounded'" th:id="'birthday'" th:name="'birthday'" th:type="'date'" th:field="*{birthday}" th:value="*{birthday}" th:attr="disabled=${readOnly}">
+            </div>
+
+            <div class="form-field-container">
+                <label th:for="'email'">Email</label>
+                <input th:class="'rounded'" th:id="'email'" th:name="email" th:type="email" th:placeholder="Email" th:field="*{email}" th:required th:attr="disabled=${readOnly}">
+            </div>
+        </form>
     </body>
 </html>

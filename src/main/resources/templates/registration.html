@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
-    <link rel="stylesheet" th:href="@{/css/registration.css}">
+    <link rel="stylesheet" th:href="@{/css/form.css}">
     <script th:src="@{https://code.jquery.com/jquery-3.1.1.min.js}"></script>
     <script th:src="@{https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js}"></script>
     <script th:src="@{/js/registration.js}"></script>
 </head>
     <body>
         <!--/*@thymesVar id="registrationRequest" type="birintsev.artplace.dto.RegistrationRequest"*/-->
-        <form th:id="registration-form" th:class="'rounded'" th:object="${registrationRequest}" th:action="@{/registration/form-submit}" th:method="'post'">
-            <p th:id="'form-title'">Registration form</p>
+        <form th:id="'registration-form'" th:class="'rounded'" th:object="${registrationRequest}" th:action="@{/registration/form-submit}" th:method="'post'">
+            <h1 th:id="'form-title'" class="form-title">Registration form</h1>
 
             <div class="form-field-container">
                 <label th:for="'name'">Name</label>

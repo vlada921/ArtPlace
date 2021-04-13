@@ -32,6 +32,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/registration/**")
                 .not()
                 .authenticated()
+            .antMatchers("/account")
+                .authenticated()
                 .and()
             .formLogin()
                 .permitAll()
