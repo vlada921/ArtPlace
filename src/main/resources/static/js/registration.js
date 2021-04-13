@@ -1,6 +1,6 @@
 $(document).ready(
   function () {
-      $("#registration-form").validate({
+      $("#form").validate({
           rules : {
               "confirm-password" : {
                   equalTo : "#password"

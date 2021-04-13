@@ -9,7 +9,7 @@ body {
   justify-content: center;
 }
 
-#registration-form {
+form {
   border: 1px solid black;
   display: flex;
   flex-direction: column;
@@ -18,11 +18,11 @@ body {
   height: 50vh;
 }
 
-#form-title {
+.form-title {
   align-self: center;
 }
 
-#registration-form > * {
+form > * {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
