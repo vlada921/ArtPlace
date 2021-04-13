@@ -9,7 +9,7 @@
 
 .styled-table thead tr {
   background-color: #009879;
-  color: #ffffff;
+  color: #fff;
   text-align: left;
 }
 
@@ -19,7 +19,7 @@
 }
 
 .styled-table tbody tr {
-  border-bottom: 1px solid #dddddd;
+  border-bottom: 1px solid #ddd;
 }
 
 .styled-table tbody tr:nth-of-type(even) {
