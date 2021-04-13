@@ -26,7 +26,7 @@ public class AdminController {
     private final UserService userService;
 
     @RequestMapping(RESOURCE_USERS)
-    private ModelAndView users() {
+    protected ModelAndView users() {
         String usersModelAttrName = "users";
         return new ModelAndView(
             VIEW_NAME_USERS,
