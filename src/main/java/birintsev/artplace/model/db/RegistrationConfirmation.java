@@ -12,8 +12,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @AllArgsConstructor

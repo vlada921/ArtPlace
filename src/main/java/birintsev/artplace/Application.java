@@ -25,12 +25,12 @@ public class Application {
     }
 
     @Bean
-    ModelMapper modelMapper() {
+    protected ModelMapper modelMapper() {
         return new ModelMapper();
     }
 
     @Bean
-    MessageSource messageSource() {
+    protected MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource
             = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:messages/messages");
@@ -38,19 +38,19 @@ public class Application {
     }
 
     @Bean(name = "LocaleDefault")
-    Locale localeDefault(
+    protected Locale localeDefault(
         @Value("${ap.application.locale}") String localeDefault
     ) {
         return new Locale(localeDefault);
     }
 
     @Bean
-    PasswordEncoder passwordEncoder() {
+    protected PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationProvider authProvider(
+    protected AuthenticationProvider authProvider(
         @Qualifier("UserRepo")
         UserDetailsService userDetailsService,
         PasswordEncoder encoder

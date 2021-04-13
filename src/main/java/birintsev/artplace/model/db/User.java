@@ -69,7 +69,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return _registrationConfirmed();
+        return registrationConfirmed();
     }
 
     @Override
@@ -79,14 +79,14 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return _registrationConfirmed();
+        return registrationConfirmed();
     }
 
     public void addAuthority(GrantedAuthority authority) {
         authorities.add(new Authority(authority.getAuthority()));
     }
 
-    private boolean _registrationConfirmed() {
+    private boolean registrationConfirmed() {
         return authorities.contains(Authority.REG_CONFIRMED);
     }
 }

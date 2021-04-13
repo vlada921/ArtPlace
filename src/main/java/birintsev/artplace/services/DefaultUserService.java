@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
@@ -88,7 +87,7 @@ public class DefaultUserService implements UserService {
         RegistrationConfirmation registrationConfirmation;
         Optional<RegistrationConfirmation> _regConf =
             regRepo.findByToken(token);
-        if (_regConf.isEmpty() || _isExpired(_regConf.get())) {
+        if (_regConf.isEmpty() || isExpired(_regConf.get())) {
             throw new NoSuchElementException(
                 String.format(
                     "The registration (token=%s) can not be confirmed."
@@ -100,7 +99,7 @@ public class DefaultUserService implements UserService {
             registrationConfirmation = _regConf.get();
             user = registrationConfirmation.getUser();
         }
-        if (_isConfirmed(registrationConfirmation)) {
+        if (isConfirmed(registrationConfirmation)) {
             throw new UserExistException(
                 "This registration has already been confirmed"
             );
@@ -124,13 +123,13 @@ public class DefaultUserService implements UserService {
      * <p>
      * {@code expirationDate = null} means that this token can not be outdated.
      * */
-    private boolean _isExpired(RegistrationConfirmation regConf) {
+    private boolean isExpired(RegistrationConfirmation regConf) {
         Timestamp expiresWhen = regConf.getExpiresWhen();
         return expiresWhen != null
             && Timestamp.valueOf(LocalDateTime.now()).after(expiresWhen);
     }
 
-    private boolean _isConfirmed(RegistrationConfirmation regConf) {
+    private boolean isConfirmed(RegistrationConfirmation regConf) {
         return regConf.getConfirmedWhen() != null;
     }
 }

@@ -3,7 +3,6 @@ package birintsev.artplace.eventslisteners;
 import birintsev.artplace.controllers.RegistrationController;
 import birintsev.artplace.model.db.RegistrationConfirmation;
 import birintsev.artplace.model.db.repo.RegistrationRepo;
-import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

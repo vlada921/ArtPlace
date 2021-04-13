@@ -44,7 +44,7 @@ public class RegistrationController {
     public static final String REG_PAGE_PATH =
         "/registration";
 
-    static final String REG_FORM_HANDLER_PATH =
+    public static final String REG_FORM_HANDLER_PATH =
         "/form-submit";
 
     public static final String REG_CONFIRM_HANDLER_PATH =
@@ -68,7 +68,7 @@ public class RegistrationController {
     @RequestMapping(
         method = RequestMethod.GET
     )
-    ModelAndView registrationPage() {
+    private ModelAndView registrationPage() {
         ModelAndView modelAndView = new ModelAndView(REG_VIEW_NAME);
         modelAndView.getModelMap().addAttribute(
             REG_REQUEST_MODEL_ATTR_NAME,
@@ -81,7 +81,7 @@ public class RegistrationController {
         method = RequestMethod.POST,
         path = REG_FORM_HANDLER_PATH
     )
-    ModelAndView registrationFormSubmit(
+    private ModelAndView registrationFormSubmit(
         @ModelAttribute(REG_REQUEST_MODEL_ATTR_NAME)
         @Valid
         RegistrationRequest request,
@@ -127,7 +127,7 @@ public class RegistrationController {
         path = REG_CONFIRM_HANDLER_PATH,
         method = RequestMethod.GET
     )
-    ModelAndView confirm(@RequestParam(value = "token") String token) {
+    private ModelAndView confirm(@RequestParam(value = "token") String token) {
         ModelAndView mav;
         try {
             userService.confirm(token);
