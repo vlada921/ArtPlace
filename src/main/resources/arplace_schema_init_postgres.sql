@@ -135,6 +135,25 @@ create table if not exists artplace.ap_user_authorities(
         foreign key (authority_name) references artplace.ap_authorities(name)
 );
 
+create table if not exists artplace.ap_subscr_tariffs(
+    id uuid primary key,
+    name varchar(128) not null
+);
+
+create table if not exists artplace.ap_publics_subscriptions(
+    user_id uuid,
+    public_id uuid,
+    tariff_id uuid not null,
+    constraint ap_publics_subscriptions_user_fk
+        foreign key (user_id) references artplace.ap_users(id),
+    constraint ap_publics_subscriptions_public_fk
+        foreign key (public_id) references artplace.ap_publics(id),
+    constraint ap_publics_subscriptions_tariff_fk
+        foreign key (public_id) references artplace.ap_subscr_tariffs(id),
+    constraint ap_publics_subscriptions_pk
+        primary key (user_id, public_id)
+);
+
 -- Triggers
 
 create trigger max_user_publics_check_trigger
@@ -161,5 +180,9 @@ insert into artplace.ap_users values (
 insert into artplace.ap_user_authorities values
     ((select id from artplace.ap_users where name = 'admin'), 'ADMIN'),
     ((select id from artplace.ap_users where name = 'admin'), 'REGISTRATION_CONFIRMED');
+
+insert into artplace.ap_subscr_tariffs values
+    (public.uuid_generate_v4(), 'FREE'),
+    (public.uuid_generate_v4(), 'PAID');
 
 set search_path = "artplace";
