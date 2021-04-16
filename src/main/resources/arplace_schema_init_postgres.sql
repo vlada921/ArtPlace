@@ -7,6 +7,8 @@ drop table if exists artplace.ap_files cascade;
 drop table if exists artplace.ap_publication_files cascade;
 drop table if exists artplace.ap_registration_confirmation cascade;
 drop table if exists artplace.ap_params cascade;
+drop table if exists artplace.ap_subscr_tariffs cascade;
+drop table if exists artplace.ap_publics_subscriptions cascade;
 
 -- DDL
 
