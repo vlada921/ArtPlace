@@ -16,6 +16,7 @@ public class File {
     @Id
     private UUID id;
 
-    @Column
     private URI uri;
+
+    private String name;
 }

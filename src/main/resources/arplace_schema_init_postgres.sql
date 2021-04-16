@@ -107,6 +107,7 @@ create table if not exists artplace.ap_publications(
 create table if not exists artplace.ap_files(
     id uuid default public.uuid_generate_v4() primary key,
     uri varchar(4096) not null,
+    name varchar(128),
     constraint ap_files_url_length_check check (is_real_length_between(uri))
 );
 
