@@ -149,7 +149,7 @@ create table if not exists artplace.ap_publics_subscriptions(
     constraint ap_publics_subscriptions_public_fk
         foreign key (public_id) references artplace.ap_publics(id),
     constraint ap_publics_subscriptions_tariff_fk
-        foreign key (public_id) references artplace.ap_subscr_tariffs(id),
+        foreign key (tariff_id) references artplace.ap_subscr_tariffs(id),
     constraint ap_publics_subscriptions_pk
         primary key (user_id, public_id)
 );
