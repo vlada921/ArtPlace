@@ -96,6 +96,7 @@ create table if not exists artplace.ap_publications(
     public_id uuid not null,
     title varchar(128) not null,
     publication_text varchar(4096) not null,
+    publication_date timestamp not null default now(),
     constraint ap_publications_public_fk
         foreign key (public_id) references artplace.ap_publics(id),
     constraint ap_publications_title_length_check

@@ -9,6 +9,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
 
@@ -41,4 +42,7 @@ public class Publication {
         }
     )
     private Set<File> attachments;
+
+    @Column(name = "publication_date")
+    private Timestamp publicationDate;
 }
