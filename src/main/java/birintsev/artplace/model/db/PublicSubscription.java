@@ -7,8 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -27,8 +30,12 @@ public class PublicSubscription {
     @Column(name = "public_id")
     private UUID publicId;
 
-    @Column(name = "tariff_id", nullable = false)
-    private UUID tariffId;
+    @MapsId("userId")
+    @ManyToOne
+    private User user;
+
+    @Column(name = "subscribed_when")
+    private Timestamp subscribedWhen;
 
     @AllArgsConstructor
     @NoArgsConstructor

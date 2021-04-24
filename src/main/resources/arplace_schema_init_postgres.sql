@@ -148,6 +148,7 @@ create table if not exists artplace.ap_publics_subscriptions(
     user_id uuid,
     public_id uuid,
     tariff_id uuid not null,
+    subscribed_when timestamp not null default now(),
     constraint ap_publics_subscriptions_user_fk
         foreign key (user_id) references artplace.ap_users(id),
     constraint ap_publics_subscriptions_public_fk
