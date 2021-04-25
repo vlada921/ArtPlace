@@ -1,3 +1,5 @@
+-- TODO: Indexes: [Analyze most queried datasets] & [Create indexes]
+
 drop table if exists artplace.ap_users cascade;
 drop table if exists artplace.ap_authorities cascade;
 drop table if exists artplace.ap_user_authorities cascade;
@@ -51,6 +53,8 @@ create or replace function max_user_publics_check_procedure() returns trigger as
             return NEW; -- do nothing (i.e. maxUserPublics is not limited)
     end;
 $$ language plpgsql;
+
+-- Tables
 
 create table if not exists artplace.ap_users(
     id uuid default public.uuid_generate_v4() primary key,
@@ -108,12 +112,15 @@ create table if not exists artplace.ap_publications(
     title varchar(128) not null,
     publication_text varchar(4096) not null,
     publication_date timestamp not null default now(),
+    tariff_id uuid not null,
     constraint ap_publications_public_fk
         foreign key (public_id) references artplace.ap_publics(id),
     constraint ap_publications_title_length_check
         check (is_real_length_between(title)),
     constraint ap_publications_body_length_check
-        check (is_real_length_between(publication_text, 2, 4096))
+        check (is_real_length_between(publication_text, 2, 4096)),
+    constraint ap_publications_tariff_fk
+        foreign key (tariff_id) references artplace.ap_subscr_tariffs(id)
 );
 
 create table if not exists artplace.ap_files(
@@ -165,6 +172,17 @@ create table if not exists artplace.ap_publics_subscriptions(
         primary key (user_id, public_id)
 );
 
+create table if not exists artplace.ap_users_perm_publications(
+    user_id uuid,
+    publication_id uuid,
+    constraint ap_users_perm_publications_pk
+        primary key (user_id, publication_id),
+    constraint ap_users_perm_publications_user_fk
+        foreign key (user_id) references artplace.ap_users(id),
+    constraint ap_users_perm_publications_publication_fk
+        foreign key (publication_id) references artplace.ap_publications(id)
+);
+
 -- Triggers
 
 create trigger max_user_publics_check_trigger
@@ -193,7 +211,7 @@ insert into artplace.ap_user_authorities values
     ((select id from artplace.ap_users where name = 'admin'), 'REGISTRATION_CONFIRMED');
 
 insert into artplace.ap_subscr_tariffs values
-    (public.uuid_generate_v4(), 'FREE'),
-    (public.uuid_generate_v4(), 'PAID');
+    (public.uuid_generate_v4(), 'FREE', 0, default),
+    (public.uuid_generate_v4(), 'PAID', 500, 'USD');
 
-set search_path = "artplace";
+set search_path = "public", "artplace"

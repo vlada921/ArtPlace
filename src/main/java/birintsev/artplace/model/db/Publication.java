@@ -31,6 +31,13 @@ public class Publication {
     @JoinColumn(name = "public_id", referencedColumnName = "id")
     private Public parentPublic;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(
+        name = "tariff_id",
+        referencedColumnName = "id"
+    )
+    private SubscriptionTariff tariff;
+
     @ManyToMany
     @JoinTable(
         name = "ap_publication_files",

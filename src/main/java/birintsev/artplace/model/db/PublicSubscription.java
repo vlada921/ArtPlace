@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
@@ -34,20 +35,28 @@ public class PublicSubscription {
     @ManyToOne
     private User user;
 
+    @MapsId("publicId")
+    @JoinColumn(name = "public_id", referencedColumnName = "id")
+    @ManyToOne
+    private Public subscribedPublic;
+
     @Column(name = "subscribed_when")
     private Timestamp subscribedWhen;
+
+    @ManyToOne
+    @JoinColumn(
+        name = "tariff_id",
+        referencedColumnName = "id"
+    )
+    private SubscriptionTariff subscriptionTariff;
 
     @AllArgsConstructor
     @NoArgsConstructor
     @Data
     public static class PublicSubscriptionId implements Serializable {
 
-        @Id
-        @Column(name = "user_id")
-        protected UUID userId;
+        private UUID userId;
 
-        @Id
-        @Column(name = "public_id")
-        protected UUID publicId;
+        private UUID publicId;
     }
 }
