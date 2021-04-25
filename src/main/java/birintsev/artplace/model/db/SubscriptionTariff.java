@@ -3,9 +3,12 @@ package birintsev.artplace.model.db;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigInteger;
+import java.util.Currency;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -23,4 +26,9 @@ public class SubscriptionTariff {
     private UUID id;
 
     private String name;
+
+    private BigInteger price;
+
+    @Column(name = "currency_code")
+    private Currency currency;
 }

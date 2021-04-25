@@ -91,6 +91,17 @@ create table if not exists artplace.ap_publics(
         foreign key (owner_id) references artplace.ap_users(id)
 );
 
+create table if not exists artplace.ap_subscr_tariffs(
+    id uuid primary key,
+    name varchar(128) not null,
+    price int8 not null default 0,
+    currency_code varchar(3) default 'USD',
+    constraint ap_subscr_tariffs_price_check
+        check (price >= 0),
+    constraint ap_subscr_tariffs_currency_check
+        check (currency_code ~* '[A-Z]{2,3}')
+);
+
 create table if not exists artplace.ap_publications(
     id uuid default public.uuid_generate_v4() primary key,
     public_id uuid not null,
@@ -137,11 +148,6 @@ create table if not exists artplace.ap_user_authorities(
         foreign key (user_id) references artplace.ap_users(id),
     constraint ap_user_authorities_authority_fk
         foreign key (authority_name) references artplace.ap_authorities(name)
-);
-
-create table if not exists artplace.ap_subscr_tariffs(
-    id uuid primary key,
-    name varchar(128) not null
 );
 
 create table if not exists artplace.ap_publics_subscriptions(
