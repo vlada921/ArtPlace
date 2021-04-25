@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Account</title>
+    <link rel="stylesheet" th:href="@{/css/feed.css}">
+    <script th:src="@{https://code.jquery.com/jquery-3.1.1.min.js}"></script>
+    <script th:src="@{/js/feedLineAJAXScroll.js}"></script>
+</head>
+    <body>
+    <input type="hidden" id="current-page" value="0">
+    <input type="hidden" id="page-size" th:value="10">
+        <div id="menu-bar">
+            <div id="account-nav-container" class="menu-bar-item">
+                <!--/*@thymesVar id="user" type="birintsev.artplace.dto.UserDTO"*/-->
+                <a th:href="@{/account}" th:text="${user.name}"></a>
+            </div>
+        </div>
+        <div id="feed-line">
+            <!--/*@thymesVar id="publications" type="java.lang.Iterable"*/-->
+            <!--/*@thymesVar id="publication" type="birintsev.artplace.dto.PublicationDTO"*/-->
+            <div class="feed-line-item-container" th:each="publication : ${publications}">
+                <h5 th:text="${publication.parentPublic.name}"></h5>
+                <h6 th:text="${publication.title}"></h6>
+                <p th:text="${publication.publicationText}"></p>
+                <div class="publication-files-container">
+                    <div class="publication-file" th:each="file : ${publication.attachments}">
+                        <a th:href="@{/file/{id}(id=${file.id})}" th:text="${file.name}"></a>
+                    </div>
+                </div>
+            </div>
+            <!--<div th:if="${publications.iterator().hasNext()}"></div>-->
+        </div>
+        <div id="subscriptions-bar">
+            <!--/*@thymesVar id="publics" type="java.lang.Iterable"*/-->
+            <!--/*@thymesVar id="subscrPublic" type="birintsev.artplace.dto.PublicDTO"*/-->
+            <div class="subscription-icon" th:each="subscrPublic : ${publics}">
+                <a th:text="${subscrPublic.getName()}" th:href="@{/public/{publicId}(publicId=${subscrPublic.getId()})}"></a>
+            </div>
+        </div>
+    </body>
+</html>

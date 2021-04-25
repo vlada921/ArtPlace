@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", serif;
+  font-size: 1em;
+  font-weight: normal;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
+}
+
+body > * {
+  display: flex;
+  border: 1px black solid;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#menu-bar {
+  flex-grow: 0.05;
+  background-color: #39bef3;
+}
+
+#feed-line {
+  flex-grow: 0.8;
+  background-color: #f87c63;
+  overflow-y: scroll;
+}
+
+#subscriptions-bar {
+  flex-grow: 0.15;
+  background-color: #f8c93a;
+}
+
+.feed-line-item-container {
+  max-width: 50%;
+  min-width: 600px;
+  min-height: 85vh;
+  max-height: 85vh;
+  border: 1px solid black;
+  background-color: #f8556b;
+}

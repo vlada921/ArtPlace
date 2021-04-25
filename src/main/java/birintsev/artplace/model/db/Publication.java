@@ -9,6 +9,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
 
@@ -30,6 +31,13 @@ public class Publication {
     @JoinColumn(name = "public_id", referencedColumnName = "id")
     private Public parentPublic;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(
+        name = "tariff_id",
+        referencedColumnName = "id"
+    )
+    private SubscriptionTariff tariff;
+
     @ManyToMany
     @JoinTable(
         name = "ap_publication_files",
@@ -41,4 +49,7 @@ public class Publication {
         }
     )
     private Set<File> attachments;
+
+    @Column(name = "publication_date")
+    private Timestamp publicationDate;
 }

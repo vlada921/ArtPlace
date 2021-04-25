@@ -32,7 +32,12 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/registration/**")
                 .not()
                 .authenticated()
-            .antMatchers("/account")
+            .antMatchers(
+                "/account",
+                "/feed/**",
+                "/public/**",
+                "/publication/**"
+            )
                 .authenticated()
                 .and()
             .formLogin()
